@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+ 
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="main.css" type="text/css">
+    
+    <title>JS Bin</title>
+    
+</head>
+<body>
+
+
+<input id='name' placeholder='Guest name' data-bind="value: guestName">
+<select id='rooms' data-bind="options: rooms, optionsCaption: 'Room', value: roomId"><option data-bind="text: "></option></select>
+
+
+<input type="submit" id='book' value="Book" data-bind="click: addBooking, enable: rooms().length > 0">
+
+
+<hr/>
+<div class="list-itmes">
+<input type="search" placeholder="Search..." data-bind="value: query, valueUpdate: 'afterkeydown', visible : computedBookings().length > 0 || query().length > 0"/>
+<ul id='bookings' data-bind="foreach: computedBookings ">
+    <li>
+        <span data-bind="text: roomId "></span>
+        <span data-bind="text: guestName"></span>
+        <button data-bind="click:$parent.remove">Remove</button>
+    </li>
+</ul>
+</div>
+    <div class="jquery-search">
+        <input type="search" placeholder="Search..." />
+    <ul class="test-search">
+        <li>Testing search</li>
+        <li>Search testing</li>
+        <li>Home file here</li>
+        <li>Another example</li>
+    </ul>    
+    </div>
+    
+<!--
+    <div class="shopping-card">
+        <table>
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><select data-bind="options : categories, optionsCaption : 'Choose..'"></select></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <p> Total value $<span> 0 </span></p>
+        <button>Add product</button>
+        <button>Submit order</button>
+    </div>
+-->
+
+    <div class="js-snake-game"></div>
+    
+    <script src="knockout.js" type="text/javascript"></script>
+    <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+    <script src="snake-game.js" type="text/javascript"></script>
+    <script src="main.js" type="text/javascript"></script>
+    
+</body>
+</html>
