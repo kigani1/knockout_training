@@ -12,8 +12,8 @@ var SnakeGame = (function () {
         direction = 'right',
         posX =  width / 2,
         posY =  width / 2,
-        coordX = Math.round((Math.random() * width) / 10) * 10,
-        coordY = Math.round((Math.random() * height) / 10) * 10,
+        coordX = Math.round((Math.random() * (width - 1) + 1) / 10) * 10,
+        coordY = Math.round((Math.random() * (height - 1) + 1) / 10) * 10,
         score = 0,
         inversDirection = {
             'up' : 'down',
@@ -24,8 +24,7 @@ var SnakeGame = (function () {
     
     function init() {
         $('#cnv').css({'border' : '10px solid #ddd'});
-
-        snake();
+        snake();   
         bindings();
         gameLoop();
         
@@ -33,18 +32,19 @@ var SnakeGame = (function () {
     function gameLoop() {
         ctx.clearRect(0, 0, width, height);
         draw();
+        level_1();
         if (checkCollision()) {
             ctx.clearRect(0, 0, width, height);
             ctx.font = width / 10 + 'px Verdana';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillText('Game over', posX + basicLength * blokSize, posY);
+            ctx.fillText('Game over', posX, posY);
             return false;
         }
         ctx.font = width / 5 + 'px Verdana';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(score, posX + basicLength * blokSize, posY);
+        ctx.fillText(score, posX, posY);
         eatFood();
         food();
         move();
@@ -53,10 +53,10 @@ var SnakeGame = (function () {
     };
 
     function snake() {
-        var i;
-        for (i = len; i > 0; i -= 1) {
-            snakeArr.push({x : posX, y: posY});
-            posX -= blokSize;
+        var i, positionX = posX, positionY = posY;
+        for (i = len; i > 0; i -= 1) {           
+            snakeArr.push({x : positionX, y: positionY});
+            positionX -= blokSize;
         }
     };
 
@@ -95,10 +95,10 @@ var SnakeGame = (function () {
     function eatFood() {
         len = snakeArr.length;
         var snakeHead = snakeArr[0],
-            posX = snakeArr[len - 1].x - blokSize,
-            posY = snakeArr[len - 1].y - blokSize;
+            positionX = snakeArr[len - 1].x - blokSize,
+            positionY = snakeArr[len - 1].y - blokSize;
         if (snakeHead.x === coordX && snakeHead.y === coordY) {
-            snakeArr.push({x : posX, y : posY});
+            snakeArr.push({x : positionX, y : positionY});
             coordX = Math.round((Math.random() * width) / 10) * 10;
             coordY = Math.round((Math.random() * height) / 10) * 10;
             score +=1;
@@ -113,11 +113,18 @@ var SnakeGame = (function () {
                     return obj;
                 }
             });
-        if (snakeHead.x === width || snakeHead.x === -10 || snakeHead.y === height || snakeHead.y === -10 || match.length > 0) {
+        if (snakeHead.x === width || snakeHead.x === -10 || snakeHead.y === height || snakeHead.y === -10 || match.length > 0 || (snakeHead.x === posX && (snakeHead.y > 0 && snakeHead.y < posY))) {
             return true;
         }
     };
-
+    function level_1(){
+        ctx.beginPath();
+        ctx.moveTo(posX+5, 0);
+        ctx.lineTo(posX+5, posY);
+        ctx.strokeStyle = 'grey';
+        ctx.lineWidth = blokSize;
+        ctx.stroke();
+    };
     function bindings() {
         $(document).on('keydown', function (event) {
             var keycode = (event.keyCode ? event.keyCode : event.which);
