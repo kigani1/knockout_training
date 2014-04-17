@@ -95,9 +95,10 @@ $(function () {
             
         });    
     });
-    var game = new SnakeGame();
-    game.init();
 
+    SnakeGame.init();
+    //var particles = new Animation();
+    //particles.init();
 });
 
 
